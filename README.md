@@ -1,16 +1,8 @@
-# UNCode Deployment 
-
-[![License](https://img.shields.io/github/license/JuezUN/Deployment?style=plastic)][license_url]
-[![Contributors](https://img.shields.io/github/contributors/JuezUN/Deployment?style=plastic)][contributors_url]
-[![GitHub issues](https://img.shields.io/github/issues/JuezUN/Deployment?style=plastic)][issues_url]
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cb814cff25be4fb89e97be55aa29fbbf)][codacy_badge_url]
-[![CLA assistant](https://cla-assistant.io/readme/badge/JuezUN/Deployment)][cla_url]
-[![Gitter](https://badges.gitter.im/uncode-unal/community.svg)][gitter_url]
+# Deployment 
 
 This repository contains all necessary scripts to automatically deploy UNCode with all of its features.
 Here you'll find a step-by-step guide to deploy it in a **CentOS 7** server to be able to host your courses.
 
-For more information, please refer to the project page: <https://juezun.github.io/UNCode_page>
 
 ## Before you start
 
@@ -24,7 +16,7 @@ Before you start, we recommend that you review the documentation of [proxy setti
 
 3. Clone the deployment repository
 
-   `git clone https://github.com/JuezUN/Deployment.git`
+   `git clone https://github.com/cgiohidalgo/Deployment.git`
 
 4. Inside the Deployment folder, make the .sh files runnable
 
@@ -42,47 +34,14 @@ Before you start, we recommend that you review the documentation of [proxy setti
 
    **Note**: Check the *File system docker driver* with `docker info`, this should say `overlay2`. If not, check bellow in common problems to fix this.
 
-7. Logout and log back in to the server so that the user can use mongo and docker without `sudo`.
+7. Logout (type `logout` in console) and log back in to the server so that the user can use mongo and docker without `sudo`.
 
 8. Run the command `./setup_environment.sh && source env.sh` to set the environment variables (such as proxy and ports used by the backend microservices).
 
-9. Modify the `configuration.yaml` file to use the setup you want.
-    - In `configuration.yaml` in the backend option, set it to `backend: tcp://127.0.0.1:2000`
+9. Modify the `configuration.yaml`  file to use the setup you want (var/www/INGInious/configuration.yaml).
+ 
+10. Execute the script `./run.sh`
 
-If you want to **deploy the entire application in a single machine**, then
-
-- Execute the script `./run.sh`
-
-If you want to **deploy the tools in a separate machine** from the rest of the application, follow next steps if that is the case:
-
-- In `/etc/nginx/conf.d/inginious.conf` file, change url to proxy the linter, tutor and cokapi services. Instead of proxy pass to localhost, it should have the url (IP or domain name). It should look as follows:
-
-  ```
-    location /cokapi/ {
-      proxy_pass http://<IP or damain_name>/cokapi/;
-    }
-
-    location /linter/ {
-      proxy_pass http://<IP or damain_name>/linter/;
-    }
-
-    location /tutor/ {
-      proxy_pass http://<IP or damain_name>/tutor/;
-    }
-  
-    location /tutor_py2/ {
-      proxy_pass http://<IP or damain_name>/tutor_py2/;
-    }
-  ```
-
-- Run the command `./run.sh --distributed-tools`. This parameter will tell the deployment to do not deploy tools services in the same machine.
-
-- Go to [tools host deployment documentation](tools_host/README.md) to deploy this services in another services.
-
-Go to [Grading host deployment documentation][grader_host_url] to deploy 
-any number of hosts that will be used as grading machines, these grader machines will be attached 
-
-**NOTE:** If you are deploying the agents and tools in separate machines, you can run the command `./run.sh --distributed --distributed-tools` with both parameters.
 
 ## Configuration
 
@@ -152,22 +111,4 @@ Go to [CONTRIBUTING][contributing_url] to see the guidelines and how to start co
 
 Distributed under the AGPL-3.0 License. See [LICENSE][license_url] for more information.
 
-## Contact
 
-In case of technical questions, please use the [gitter communication channel][gitter_url].
-
-In case you want to host your course on our deployment, email us on: <uncode_fibog@unal.edu.co>
-
-UNCode: <https://uncode.unal.edu.co>
-
-Project page: <https://juezun.github.io/UNCode_page/>
-
-[grader_host_url]: https://github.com/JuezUN/Deployment/tree/master/grader-host
-[uncode_scripts_url]: https://github.com/JuezUN/Deployment/tree/master/uncode_scripts
-[license_url]: https://github.com/JuezUN/Deployment/blob/master/LICENSE
-[contributors_url]: https://github.com/JuezUN/Deployment/graphs/contributors
-[issues_url]: https://github.com/JuezUN/Deployment/issues
-[codacy_badge_url]: https://www.codacy.com/gh/JuezUN/Deployment/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JuezUN/Deployment&amp;utm_campaign=Badge_Grade
-[cla_url]: https://cla-assistant.io/JuezUN/Deployment
-[gitter_url]:https://gitter.im/uncode-unal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[contributing_url]: https://github.com/JuezUN/Deployment/blob/master/CONTRIBUTING.md
