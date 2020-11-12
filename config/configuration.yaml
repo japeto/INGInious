@@ -31,9 +31,7 @@ plugins:
     use_wavedrom: True
   - plugin_module: inginious.frontend.plugins.grader_generator
   - plugin_module: inginious.frontend.plugins.custom_input
-  - plugin_module: inginious.frontend.plugins.UN_template
   - plugin_module: inginious.frontend.plugins.problem_bank
-  - plugin_module: inginious.frontend.plugins.UNCode
     used_grading_environments: ["multiple_languages", "HDL", "Data Science", "Notebook"]
     used_subproblem_types: ["code_multiple_languages", "code_file_multiple_languages", "notebook_file"]
   - plugin_module: inginious.frontend.plugins.register_students
