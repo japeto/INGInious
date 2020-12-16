@@ -1,0 +1,148 @@
+<div id="task_context_help_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">
+                    <i class="fa fa-question-circle"> $:_("Help related to the task context.")</i>
+                </h3>
+            </div>
+            <div class="modal-body text-justify">
+                <h5>
+                    $:_("Here you will find some information related to the language") <strong>RST</strong>
+                    $:_(" and how you can use it to make a good description.")
+                </h5>
+                <hr>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Bold text"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>$:_("**Text between will be stronger**.")</code>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>$:_("Text between will be stronger.")</strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Italic text"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>$:_("*Text between will be rendered as italic*.")</code>
+                            </div>
+                            <div class="col-md-6">
+                                <em>$:_("Text between will be rendered as italic")</em>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Math text"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>$:_("The area of a square is") :math:`A_\text{s} = l^2`</code>
+                            </div>
+                            <div class="col-md-6">
+                                $:_("The math role marks its content as mathematical notation (inline formula).")
+                                <br/>
+                                $:_("The input format is <strong>LaTeX</strong>, math syntax without the \"math delimiters\". The example is rendered as:")
+                                <br>
+                                <strong>A<sub>s</sub> = l<sup>2</sup></strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Monospaced text"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>``$:_("Text between will be rendered as monospaced text.")``</code>
+                            </div>
+                            <div class="col-md-6">
+                                <code>$:_("Text between will be rendered as monospaced text.")</code>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Bullet list"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>
+                                    &nbsp;
+                                    <br> - This is item 1
+                                    <br> - This is item 2
+                                    <br>&nbsp;
+                                    <br> - Bullets are "-", "*" or "+".
+                                    <br>&nbsp;&nbsp;text must be aligned after
+                                    <br>&nbsp;&nbsp;the bullet and whitespace.
+                                </code>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="bullet-list-disc">
+                                    <li>This is item 1</li>
+                                    <li>This is item 2</li>
+                                    <li>
+                                        Bullets are "-", "*" or "+". Continuing text must be aligned after the bullet
+                                        and whitespace.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Add image"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>
+                                    .. image:: task_id/image_name
+                                    <br>
+                                    &emsp;&emsp;&emsp;:height: 180px
+                                </code>
+                            </div>
+                            <div class="col-md-6">
+                                $:_("The desired image will be rendered.")
+                                <strong>
+                                    $:_("Remember that you have to put the task id and the image name. You have to upload the image in the tab <em>Task files</em>. This file must be in the <em>public/</em> folder.")
+                                </strong>
+                                <br>
+                                <i class="fa fa-image fa-3x"></i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading"><strong>$:_("Add literal HTML"):</strong></h4>
+                        <div class="list-group-item-text row">
+                            <div class="col-md-6">
+                                <code>
+                                    .. raw:: html
+                                    <br>&nbsp;
+                                    <br>&nbsp;
+                                    &emsp;&emsp;&lt;i class="fa fa-sitemap fa-3x">&lt;/i&gt;
+                                </code>
+                            </div>
+                            <div class="col-md-6">
+                                $:_("After the '.. raw:: html' you can add your HTML code.")
+                                <br/>
+                                $:_("The previous HTML code is rendered as follows"):
+                                <br>
+                                <i class="fa fa-sitemap fa-3x"></i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            <strong><i class="fa fa-globe"></i> $:_("More information"):</strong>
+                        </h4>
+                        <div class="list-group-item-text">
+                            $:_("For more information please visit <strong>RST</strong> language <a href=\"http://docutils.sourceforge.net/rst.html\" target=\"_blank\"> documentation</a>.")
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">$:_("Close")</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+$def with (open_courses,registrable_courses,submissions,success)
+
+$#
+$# This file is part of INGInious. See the LICENSE and the COPYRIGHTS files for
+$# more information about the licensing of this file.
+$#
+
+$var title: $:_("My courses")
+
+$def NavbarF():
+    <ol class="nav navbar-nav nav-breadcrumb">
+        <li class="active"><a href="#"><i class="fa fa-th-list"></i> $:_("My courses")
+            <span class="sr-only">$:_("(current)")</span></a>
+        </li>
+    </ol>
+$var Navbar: $:NavbarF()
+
+$# Left column content
+$def ColumnF():
+    <h3>$:_("Last tried exercises")</h3>
+
+    <div class="list-group">
+        $if submissions:
+            $for submission in submissions:
+                <a class="list-group-item
+                    $if submission['status'] == 'done' and submission['result'] == 'success':
+                        list-group-item-success
+                    $elif submission['status'] == 'done' and submission['result'] == 'save':
+                        list-group-item-info
+                    $elif submission['status'] == 'waiting':
+                        list-group-item-warning
+                    $else:
+                        list-group-item-danger
+                    "
+                    href="$get_homepath()/course/$submission['courseid']/$submission['taskid']">
+                    <b>$submission["task"].get_course().get_name(user_manager.session_language())</b>: $submission["task"].get_name(user_manager.session_language())
+                </a>
+        $else:
+            <a class="list-group-item disabled submission-empty">$:_("No submissions")</a>
+    </div>
+    $:template_helper.call('main_menu', template_helper=template_helper)
+$var Column: $:ColumnF()
+
+$# Start content
+<h2>$:_("My courses")</h2>
+<div class="list-group list-group-progress" style="margin-left: 16px; margin-right: 16px;">
+	$if len(open_courses) != 0:
+        $ username = user_manager.session_username()
+        $for courseid, course in open_courses.items():
+            <a href="$get_homepath()/course/$courseid" class="list-group-item row $(('list-group-item-warning' if not course.is_lti() else 'list-group-item-info') if not course.is_open_to_non_staff() else '')">
+                <div class="col-xs-12 col-md-8">
+                    $course.get_name(user_manager.session_language())
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <i class="pull-right">
+                        $if not course.is_open_to_non_staff():
+                            $if course.is_lti():
+                                $:_("LTI course") -
+                            $else:
+                                $:_("Hidden course") -
+
+                        $if username in course.get_admins() or user_manager.user_is_superadmin():
+                            $:_("Administrator")
+                        $elif username in course.get_tutors():
+                            $:_("Tutor")
+                        $elif user_manager.course_is_user_registered(course):
+                            $:_("Student")
+                    </i>
+                </div>
+            </a>
+    $else:
+        <a href="#register" class="list-group-item row disabled">$:_("You are not registered to any course")</a>
+</div>
+<hr/>
+$if user_manager.user_is_superadmin():
+    $if success == True:
+        <div class="alert alert-success alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            $:_("Course created.")
+        </div>
+    $if success == False:
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            $:_("Failed to create the course. It might either already exist or contain an invalid character (only alphanumeric in addition to '_' and '-' are accepted).")
+        </div>
+    <form class="form row" role="form" method="post">
+        <div class="form-group col-sm-8">
+            <label class="sr-only" for="new_courseid">$:_("Course")</label>
+            <input name="new_courseid" type="text" class="form-control" id="new_courseid" placeholder="$:_('New course id')">
+        </div>
+        <div class="form-group col-sm-4">
+            <button type="submit" class="btn btn-block btn-primary">$:_("Create new course")</button>
+        </div>
+    </form>
+$else:
+    <h3>$:_("Register for a course")</h3>
+    $if success == True:
+        <div class="alert alert-success alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            $:_("Registration complete.")
+        </div>
+    $elif success == False:
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            $:_("Registration failed. Please check that you properly typed the password.")
+        </div>
+    <form class="form row" role="form" method="post">
+        <div class="form-group col-sm-8">
+            <label class="sr-only" for="register_courseid">$:_("Course")</label>
+            <select class="form-control" id="register_courseid" name="register_courseid">
+                <option value="">$:_("Select a course")</option>
+                $for courseid, course in registrable_courses.items():
+                    <option value="$courseid"
+                    $if course.is_password_needed_for_registration():
+                        data-password="1"
+                    >$course.get_name(user_manager.session_language())</option>
+            </select>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="sr-only" for="register_password">$:_("Password")</label>
+            <input class="form-control" type="password" id="register_password" name="register_password" disabled="disabled" placeholder="$:_('Password')">
+        </div>
+        <div class="col-sm-12"><button type="submit" class="btn btn-block btn-default">$:_("Register")</button></div>
+    </form>
